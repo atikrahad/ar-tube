@@ -37,9 +37,9 @@ const clickedCatagory = async (id) => {
 
 const showVideo = (data) => {
   const parent2 = document.getElementById("videosEl");
-  
-  parent2.innerHTML = '';
-  
+
+  parent2.innerHTML = "";
+
   if (data.data.length === 0) {
     const div1 = document.createElement("div");
     div1.classList.add(
@@ -49,39 +49,57 @@ const showVideo = (data) => {
       "items-center",
       "flex-col",
       "h-[60vh]",
-      'absolute',
-      'top-[30%]',
-      'w-[90%]',
-      'mx-auto'
+      "absolute",
+      "top-[30%]",
+      "w-[90%]",
+      "mx-auto"
     );
     div1.innerHTML = `
         <img src="./img/Icon.png" class="w-32" alt="">
             <h1 class="text-3xl text-center font-bold">Oops!! Sorry, There is no <br> content here</h1>
         `;
-        parent2.appendChild(div1);
-  }
-   else {
+    parent2.appendChild(div1);
+  } else {
     data.data.forEach((element) => {
-        const div2 = document.createElement("div");
-    div2.classList.add("card", "rounded-md");
-    div2.innerHTML = `
-    <figure><img src="${element.thumbnail}" class="h-52 w-[100%] rounded-md" alt="Shoes" /></figure>
+      const timeSet = element.others.posted_date;
+      const hour = Math.floor(timeSet / 3600);
+      const seconds = timeSet % 3600;
+      const miniuts = Math.floor(seconds / 60);
+      console.log(miniuts, hour);
+      const div2 = document.createElement("div");
+      div2.classList.add("card", "rounded-none", "lg:rounded-md");
+      div2.innerHTML = `
+    <figure class="relative"><img src="${
+      element.thumbnail
+    }" class="h-52 w-[100%] lg:rounded-md rounded-none"/>
+    <span class="bg-black rounded-lg text-white absolute right-1 bottom-1 px-2">${element.others.posted_date? `${hour}hrs ${miniuts} min ago`: ''}</span>
+    </figure>
             <div class="flex mt-4 gap-3">
-              <div class="w-[20%]"><img src="${element.authors[0].profile_picture}" class=" w-11 h-11 rounded-full" alt="">
+              <div class="w-[20%]"><img src="${
+                element.authors[0].profile_picture
+              }" class=" w-11 h-11 rounded-full" alt="">
             
             </div class="w-[75%]">
               <div>
                 <h1 class="text-lg font-bold">${element.title}</h1>
-                <p class="text-[#171717b3]">${element.authors[0].profile_name} <span>${element.authors[0]?.verified}</span></p>
-                <p class="text-[#171717b3]"><span>${element.others.views}</span> views</p>
+                <p class="text-[#171717b3]">${
+                  element.authors[0].profile_name
+                } <span>${
+        element.authors[0]?.verified
+          ? `<img src="./img/fi_10629607.svg" class="inline ml-1">`
+          : ``
+      }</span></p>
+                <p class="text-[#171717b3]"><span>${
+                  element.others.views
+                }</span> views</p>
             </div>
             </div>
     `;
-    parent2.appendChild(div2)
-    })
+      parent2.appendChild(div2);
+    });
   }
 };
 
 catagorigeHandle();
 
-clickedCatagory('1000')
+clickedCatagory("1000");
